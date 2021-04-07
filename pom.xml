@@ -15,7 +15,7 @@
     <description>Simple Spring Boot app with Firebase Cloud Messaging push notifications integration</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
     </properties>
 
     <dependencies>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>com.google.firebase</groupId>
             <artifactId>firebase-admin</artifactId>
-            <version>6.8.1</version>
+            <version>7.1.1</version>
         </dependency>
 
     </dependencies>

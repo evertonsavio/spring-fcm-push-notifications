@@ -28,15 +28,34 @@ public class FCMService {
         logger.info("Sent message without data. Topic: " + request.getTopic() + ", " + response);
     }
 
-    public void sendMessageToToken(PushNotificationRequest request)
-            throws InterruptedException, ExecutionException {
-        Message message = getPreconfiguredMessageToToken(request);
-        String response = sendAndGetResponse(message);
-        logger.info("Sent message to token. Device token: " + request.getToken() + ", " + response);
+    public void sendMessageToToken(PushNotificationRequest request) throws InterruptedException, ExecutionException, FirebaseMessagingException {
+
+        Message message = Message.builder()
+                .putData("score", "850")
+                .putData("time", "2:45")
+                .setToken(request.getToken())
+                .build();
+
+        sendAndGetResponseVoid(message);
+
+        logger.info("Sent message to token. Device token: " + request.getToken());
+    }
+//
+//    public void sendMessageToToken(PushNotificationRequest request)
+//            throws InterruptedException, ExecutionException {
+//        Message message = getPreconfiguredMessageToToken(request);
+//        String response = sendAndGetResponse(message);
+//        logger.info("Sent message to token. Device token: " + request.getToken() + ", " + response);
+//    }
+
+    private void sendAndGetResponseVoid(Message message) throws FirebaseMessagingException {
+        FirebaseMessaging.getInstance().send(message);
+        //.sendAsync(message).get();
     }
 
-    private String sendAndGetResponse(Message message) throws InterruptedException, ExecutionException {
-        return FirebaseMessaging.getInstance().sendAsync(message).get();
+    private String sendAndGetResponse(Message message) throws ExecutionException, InterruptedException {
+        return FirebaseMessaging.getInstance()
+                .sendAsync(message).get();
     }
 
     private AndroidConfig getAndroidConfig(String topic) {
@@ -70,9 +89,11 @@ public class FCMService {
     private Message.Builder getPreconfiguredMessageBuilder(PushNotificationRequest request) {
         AndroidConfig androidConfig = getAndroidConfig(request.getTopic());
         ApnsConfig apnsConfig = getApnsConfig(request.getTopic());
+        Notification.Builder builder = Notification.builder();
         return Message.builder()
-                .setApnsConfig(apnsConfig).setAndroidConfig(androidConfig).setNotification(
-                        new Notification(request.getTitle(), request.getMessage()));
+                .setApnsConfig(apnsConfig).setAndroidConfig(androidConfig)
+                //.setNotification(new Notification(request.getTitle(), request.getMessage()));
+        .setNotification(builder.build());
     }
 
 

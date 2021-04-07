@@ -1,5 +1,6 @@
 package dev.evertonsavio.fcmpushnotifications.service;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
 import dev.evertonsavio.fcmpushnotifications.firebase.FCMService;
 import dev.evertonsavio.fcmpushnotifications.model.PushNotificationRequest;
 import org.slf4j.Logger;
@@ -54,7 +55,7 @@ public class PushNotificationService {
     public void sendPushNotificationToToken(PushNotificationRequest request) {
         try {
             fcmService.sendMessageToToken(request);
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException | FirebaseMessagingException e) {
             logger.error(e.getMessage());
         }
     }

@@ -10,6 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 @Service
@@ -23,8 +24,13 @@ public class FCMInitializer {
     @PostConstruct
     public void initialize() {
         try {
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())).build();
+            FirebaseOptions options = FirebaseOptions.builder()
+                    .setCredentials(GoogleCredentials
+                            //.getApplicationDefault()
+                            //.fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())
+                            .fromStream(new FileInputStream("/home/padotec/fcm-java-project-firebase-adminsdk.json"))
+                            )
+                    .build();
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 logger.info("Firebase application has been initialized");
