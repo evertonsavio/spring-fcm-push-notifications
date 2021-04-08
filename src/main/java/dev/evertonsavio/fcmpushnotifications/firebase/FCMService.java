@@ -30,11 +30,18 @@ public class FCMService {
 
     public void sendMessageToToken(PushNotificationRequest request) throws InterruptedException, ExecutionException, FirebaseMessagingException {
 
-        Message message = Message.builder()
-                .putData("score", "850")
+//        Notification.Builder builder = Notification.builder();
+
+        Message message = getPreconfiguredMessageBuilder(request).putData("score", "850")
                 .putData("time", "2:45")
-                .setToken(request.getToken())
-                .build();
+                .setToken(request.getToken()).build();
+
+//        Message message = Message.builder()
+//                .setNotification(builder.build())
+//                .putData("score", "850")
+//                .putData("time", "2:45")
+//                .setToken(request.getToken())
+//                .build();
 
         sendAndGetResponseVoid(message);
 

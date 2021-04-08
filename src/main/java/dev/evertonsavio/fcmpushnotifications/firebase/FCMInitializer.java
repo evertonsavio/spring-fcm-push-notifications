@@ -28,7 +28,7 @@ public class FCMInitializer {
                     .setCredentials(GoogleCredentials
                             //.getApplicationDefault()
                             //.fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())
-                            .fromStream(new FileInputStream("/home/padotec/fcm-java-project-firebase-adminsdk.json"))
+                            .fromStream(new FileInputStream("/home/padotec/padotecfcm-750dc-firebase-adminsdk-1th3z-49a7dbe4b9.json"))
                             )
                     .build();
             if (FirebaseApp.getApps().isEmpty()) {
